@@ -29,11 +29,6 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.findByUserId(userId);
     }
 
-    @Override
-    public void markNotificationAsRead(Long notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("Notification not found with id: " + notificationId));
-        notification.setRead(true);
-        notificationRepository.save(notification);
-    }
+
+
 }

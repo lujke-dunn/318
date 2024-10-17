@@ -8,5 +8,5 @@ import java.util.List;
 public interface NotificationService {
     void createNotification(String userId, String message, NotificationType type);
     List<Notification> getNotificationsForUser(String userId);
-    void markNotificationAsRead(Long notificationId);
+
 }

@@ -144,16 +144,10 @@ public class BookingService {
         booking.setPayment(paymentResponse);
         Booking savedBooking = bookingRepository.save(booking);
 
-        String status = (paymentDTO.getAmount() > 0) ? "SUCCESS" : "FAILED";
-        String message = String.format("{\"bookingId\":%d,\"userId\":%d,\"amount\":%.2f,\"status\":\"%s\"}",
-            savedBooking.getId(), savedBooking.getUserId(), paymentDTO.getAmount(), status);
+        String message = String.format("{\"bookingId\":%d,\"userId\":%d,\"amount\":%.2f}",
+            savedBooking.getId(), savedBooking.getUserId(), paymentDTO.getAmount());
 
-        if ("SUCCESS".equals(status)) {
-            kafkaTemplate.send(BOOKING_CONFIRMED_TOPIC, message);
-            kafkaTemplate.send("payment-received-topic", message);
-        } else {
-            kafkaTemplate.send("payment-failed-topic", message);
-        }
+        kafkaTemplate.send(BOOKING_CONFIRMED_TOPIC, message);
 
         return savedBooking;
     }
